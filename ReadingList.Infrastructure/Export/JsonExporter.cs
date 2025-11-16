@@ -5,18 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using ReadingList.Domain.Entities;
+using ReadingList.Domain.Common;
+using ReadingList.Application.Interfaces;
 
 namespace ReadingList.Infrastructure.Export
 {
-    public sealed class JsonExporter
+    public sealed class JsonExporter : IExporter
     {
-        public void Save(string filePath, IEnumerable<Book> books)
+        public string Name => "json";
+        public Result Save(string filePath, IEnumerable<Book> books)
         {
-            var json = JsonSerializer.Serialize(books, new JsonSerializerOptions
+            try
             {
-                WriteIndented = true
-            });
-            File.WriteAllText(filePath, json);
+                var json = JsonSerializer.Serialize(books, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+                File.WriteAllText(filePath, json);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"Failed to save JSON file: {ex.Message}");
+            }
         }
     }
 }
