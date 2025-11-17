@@ -7,12 +7,13 @@ using ReadingList.Domain.Common;
 
 namespace ReadingList.Application.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T, TKey>
+    where TKey : notnull
     {
-        Result Add(T item);             
-        Result Update(T item);           
-        Result Delete(int id);          
-        Result<T> TryGet(int id);        
-        IEnumerable<T> All();          
+        Result Add(T item);
+        Result Update(T item);
+        Result Delete(TKey key);
+        Result<T> TryGet(TKey key);
+        IEnumerable<T> All();
     }
 }

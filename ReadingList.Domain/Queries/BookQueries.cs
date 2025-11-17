@@ -11,7 +11,7 @@ namespace ReadingList.Domain.Queries
     {
         public static IEnumerable<Book> ListAll (this IEnumerable<Book> books)
         {
-            return books.OrderBy(b => b.Title).ThenBy(b => b.Author);
+            return books.OrderBy(b => b.Id);
         }
         public static IEnumerable<Book> ListFinished(this IEnumerable<Book> books)
         {
